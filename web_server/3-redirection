@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 ##Installing nginx
-sudo apt-get update
-sudo apt-get -y install nginx
+
+sudo apt update
+sudo apt install nginx -y
+sudo touch /var/www/html/index.html
 echo "Holberton School" | sudo tee /var/www/html/index.html
 
 printf %s "server {
@@ -47,4 +49,5 @@ printf %s "server {
         #}
 }
 " | sudo tee /etc/nginx/sites-available/default
+
 sudo service nginx restart
