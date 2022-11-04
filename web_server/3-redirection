@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt-get -y install nginx
 echo "Holberton School" | sudo tee /var/www/html/index.html
 
-printf %s 'server {
+printf %s "server {
         listen 80 default_server;
         listen [::]:80 default_server;
         # SSL configuration
@@ -26,6 +26,7 @@ printf %s 'server {
         # Add index.php to the list if you are using PHP
         index index.html;
         server_name _;
+        
         location /redirect_me {
            return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
         }
@@ -46,5 +47,5 @@ printf %s 'server {
         #       deny all;
         #}
 }
-' | sudo tee /etc/nginx/sites-available/default
+" | sudo tee /etc/nginx/sites-available/default
 sudo service nginx restart
