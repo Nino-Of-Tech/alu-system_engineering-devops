@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
-# custom header
-# REDIR="\\\tlocation /redirect_me {\n\t\t return 301 https://onepiece.fandom.com/wiki/One_Piece_Wiki;\n\t}\n"
-# ERRDIR="\\\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n"
-# SRC="/etc/nginx/sites-enabled/default"
-# HEADER="\\\n\tadd_header X-Served-By \$HOSTNAME;\n"
-sudo apt update -y
-sudo apt install haproxy -y
-echo 'ENABLED=1' | sudo tee -a /etc/default/haproxy
-printf %s 'backend web-backend
-        balance roundrobin
-        server 4799-web-01 34.203.28.29:80 check
-        server 4799-web-02 34.224.214.248:80 check
-frontend http
-        bind *:80
-        mode http
-        default_backend web-backend
-' | sudo tee -a /etc/haproxy/haproxy.cfg
-sudo service haproxy restart
+# Add and configure a new server
+sudo apt-get -y update
+sudo apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/CtripleU permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
+sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
+service nginx start
