@@ -4,7 +4,7 @@ sudo apt update
 sudo apt install nginx -y
 sudo touch /var/www/html/index.html
 sudo touch /var/www/html/error404.html
-echo "Holberton School" | sudo tee /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/error404.html
 
 printf %s "server {
