@@ -1,9 +1,29 @@
 #!/usr/bin/env bash
-# Add and configure a new server
-sudo apt-get -y update
-sudo apt-get -y install nginx
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
-sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/CtripleU permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
-sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
-service nginx start
+# comment 
+# inspired from https://stackoverflow.com/questions/22306006/configuration-file-etc-nginx-nginx-conf-test-failed-how-do-i-know-why-this-h
+sudo apt remove --purge nginx nginx-full nginx-common -y
+sudo apt update
+sudo apt install nginx -y
+sudo touch /var/www/html/index.html
+
+echo "Holberton School" | sudo tee /var/www/html/index.html
+sudo touch /var/www/html/error404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error404.html
+
+printf %s 'server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html;
+        error_page 404 /error404.html;
+        server_name _;
+        
+        add_header X-Served-By $hostname;
+        
+        location /redirect_me {
+           return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
+        }
+}
+' | sudo tee /etc/nginx/sites-available/default
+
+sudo service nginx restart
