@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# validating my apache server
+service apache2 restart
