@@ -2,4 +2,4 @@
 #debugging my second project
 sed -i "s/listen 8080 default_server;/listen 80 default_server;/" /etc/nginx/sites-available/default
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-service nginx restartx
+service nginx restart
