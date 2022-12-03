@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#debugging my second project
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/ninooftech.tech/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name ninooftech.tech www.ninooftech.tech;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+sudo ln -s /etc/nginx/sites-available/ninooftech.tech/etc/nginx/sites-enabled/
+sudo systemctl restart nginx
