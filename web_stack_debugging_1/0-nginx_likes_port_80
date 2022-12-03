@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 #debugging my second project
-server {
-        listen 80;
-        listen [::]:80;
-
-        root /var/www/ninooftech.tech/html;
-        index index.html index.htm index.nginx-debian.html;
-
-        server_name ninooftech.tech www.ninooftech.tech;
-
-        location / {
-                try_files $uri $uri/ =404;
-        }
-}
-sudo ln -s /etc/nginx/sites-available/ninooftech.tech/etc/nginx/sites-enabled/
-sudo systemctl restart nginx
+sed -i "s/listen 8080 default_server;/listen 80 default_server;/" /etc/nginx/sites-available/default
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx restartx
